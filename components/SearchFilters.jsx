@@ -17,16 +17,22 @@ import { filterData, getFilterValues } from "../utils/filterData";
 const SearchFilters = () => {
   const [filter, setFilter] = useState(filterData);
   const router = useRouter()
-  const searchProperties = (filterValues) => {
-      const path = router.pathname
-      const {query} = router
-      
-      const values = getFilterValues(filterValues)
-      values.forEach((item) => {
-          query[item.name] = item.value
-      })
+  
 
-      router.push({pathname:path, query})
+
+  const searchProperties = (filterValues) => {
+    const path = router.pathname;
+    const { query } = router;
+
+    const values = getFilterValues(filterValues)
+
+    values.forEach((item) => {
+      if(item.value && filterValues?.[item.name]) {
+        query[item.name] = item.value
+      }
+    })
+
+    router.push({ pathname: path, query: query });
   };
 
   return (
